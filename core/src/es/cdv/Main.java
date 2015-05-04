@@ -20,7 +20,7 @@ public class Main extends Game {
 
         //Cogemos la pantalla actual y la renderizamos pasándole el tiempo
         //que ha pasado desde la última vez que se ha actualizado
-		getScreen().render(Gdx.graphics.getDeltaTime());
-
+		//getScreen().render(Gdx.graphics.getDeltaTime());
+		super.render();
 	}
 }
