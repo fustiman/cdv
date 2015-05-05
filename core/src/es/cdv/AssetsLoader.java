@@ -16,12 +16,10 @@ public class AssetsLoader {
     public static TextureRegion background;
 
     public static void loadAssets() {
-
         //Cargamos en un array una imagen dividida en trozos de 128x128
         playerSummer = getSplit("player_summer.png", 128, 128);
         playerAutumn = getSplit("player_autumn.png", 128, 128);
         tiles = getSplit("tiles.jpg", 64, 64);
-
 
         background = new TextureRegion(new Texture("background.jpg"));
     }

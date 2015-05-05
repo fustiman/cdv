@@ -48,6 +48,10 @@ public class GameStage extends Stage {
                 break;
             case Keys.S:
                 player.changeCharacter();
+                break;
+            case Keys.K:
+                player.testAction();
+                break;
         }
         return true;
     }
@@ -69,5 +73,10 @@ public class GameStage extends Stage {
         // Actualizamos la posición de la cámara para que siga al personaje
         getCamera().position.x = ((int) player.getX() + player.getWidth()/2f);
         //getCamera().position.y = ((int) player.getY());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }
