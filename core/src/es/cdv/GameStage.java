@@ -2,8 +2,12 @@ package es.cdv;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameStage extends Stage {
@@ -12,6 +16,8 @@ public class GameStage extends Stage {
     Background background;
 
     Block[][] blocks;
+
+    boolean cameraLocked = true;
 
     public GameStage(Viewport viewport) {
         super(viewport);
@@ -29,6 +35,7 @@ public class GameStage extends Stage {
             blocks[0][i] = new Block(Block.width * i, 0);
             addActor(blocks[0][i]);
         }
+
 
         // Le decimos a la aplicación que aplique la entrada a este escenario.
         Gdx.input.setInputProcessor(this);
@@ -52,6 +59,20 @@ public class GameStage extends Stage {
             case Keys.K:
                 player.testAction();
                 break;
+            case Keys.UP:
+                zoomCamera(((OrthographicCamera) getCamera()).zoom, 2);
+                break;
+            case Keys.DOWN:
+                zoomCamera(((OrthographicCamera) getCamera()).zoom, -2f);
+                break;
+            case Keys.LEFT:
+                cameraLocked = false;
+                panCamera(getCamera().position.x, getCamera().position.x + 400);
+                break;
+            case Keys.RIGHT:
+                cameraLocked = false;
+                panCamera(getCamera().position.x, getCamera().position.x - 400);
+                break;
         }
         return true;
     }
@@ -63,15 +84,63 @@ public class GameStage extends Stage {
             case Keys.D:
                 player.stopX();
                 break;
+            case Keys.LEFT:
+            case Keys.RIGHT:
+                cameraLocked = true;
+                break;
         }
-        return true;    }
+        return true;
+    }
+
+    private void zoomCamera(final float initial, final float factor) {
+
+        Action action = new TemporalAction(1f, Interpolation.bounceOut) {
+
+            @Override
+            protected void update(float percent) {
+                float zoom = initial;
+
+                zoom += factor * percent;
+
+                zoom = MathUtils.clamp(zoom, 1, 4);
+                ((OrthographicCamera) getCamera()).zoom = zoom;
+            }
+
+
+        };
+
+        addAction(action);
+    }
+
+    private void panCamera(final float initial, final float finalPos) {
+
+        final float dist = finalPos - initial;
+
+        Action action = new TemporalAction(1f, Interpolation.linear) {
+
+            @Override
+            protected void update(float percent) {
+                float posX = initial;
+
+                posX += dist * percent;
+
+
+                getCamera().position.x = posX;
+            }
+
+
+        };
+
+        addAction(action);
+    }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
         // Actualizamos la posición de la cámara para que siga al personaje
-        getCamera().position.x = ((int) player.getX() + player.getWidth()/2f);
+        if (cameraLocked)
+            panCamera(getCamera().position.x, ((int) player.getX() + player.getWidth()/2f));
         //getCamera().position.y = ((int) player.getY());
     }
 

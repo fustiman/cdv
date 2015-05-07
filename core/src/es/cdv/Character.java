@@ -3,6 +3,7 @@ package es.cdv;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -30,6 +31,8 @@ public class Character extends Actor {
     float currentFrameTime = 0;
     int currentCharacter = 0;
 
+    boolean flipped;
+
     public Character (float x, float y) {
         position = new Vector2(x, y);
 
@@ -50,6 +53,7 @@ public class Character extends Actor {
                             AssetsLoader.playerAutumn[0][3],
                             AssetsLoader.playerAutumn[0][4],
                             AssetsLoader.playerAutumn[0][5]);
+
     }
 
     /*
@@ -110,6 +114,8 @@ public class Character extends Actor {
         */
         speed.x = MathUtils.clamp(speed.x, -maxSpeed, maxSpeed);
 
+        flipSprite();
+
         position.mulAdd(speed, delta);
 
 
@@ -130,12 +136,23 @@ public class Character extends Actor {
         super.act(delta);
     }
 
+    private void flipSprite() {
+        if (speed.x > 0)
+            flipped = false;
+        else if (speed.x < 0)
+            flipped = true;
+    }
+
     @Override
     public void draw (Batch batch, float parentAlpha) {
+
         //Podemos tintar la imagen del color que queramos con el nivel de transparencia que queramos.
         batch.setColor(getColor());
+        TextureRegion frame = animation[currentCharacter].getKeyFrame(currentFrameTime, true);
 
-        batch.draw(animation[currentCharacter].getKeyFrame(currentFrameTime, true), getX(), getY(), getWidth(), getHeight());
+        frame.flip(frame.isFlipX() != flipped, false);
+
+        batch.draw(frame, getX(), getY(), getWidth(), getHeight());
 
         //Luego hay que volver a ponerlo en blanco para que no afecte al resto.
         batch.setColor(Color.WHITE);

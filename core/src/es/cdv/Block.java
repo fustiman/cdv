@@ -16,7 +16,6 @@ public class Block extends Actor {
     public Block (float x, float y) {
         setBounds(x, y, width, height);
 
-
         //cargamos a lo bruto, cuando tengamos más será de otra forma
         texture = AssetsLoader.tiles[0][1];
     }

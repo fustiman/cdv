@@ -2,6 +2,7 @@ package es.cdv;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Main extends Game {
@@ -22,5 +23,9 @@ public class Main extends Game {
         //que ha pasado desde la última vez que se ha actualizado
 		//getScreen().render(Gdx.graphics.getDeltaTime());
 		super.render();
+	}
+
+	public static void changeScreen(Screen screen) {
+		((Main) Gdx.app.getApplicationListener()).setScreen(screen);
 	}
 }

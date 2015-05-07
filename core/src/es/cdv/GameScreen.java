@@ -7,9 +7,12 @@ public class GameScreen implements Screen {
 
     GameStage stage; //Escenario donde pondremos todos los actores
 
+    public GameScreen() {
+        AssetsLoader.loadAssets();
+    }
+
     @Override
     public void show() {
-        AssetsLoader.loadAssets();
         stage = new GameStage(new ExtendViewport(640, 480)); //Tamaño en pixels de lo que se verá en pantalla
     }
 
