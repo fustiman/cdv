@@ -21,10 +21,24 @@ public class AssetsLoader {
         playerAutumn = getSplit("player_autumn.png", 128, 128);
         tiles = getSplit("tiles.jpg", 64, 64);
 
-        background = new TextureRegion(new Texture("background.jpg"));
+        background = getRegion("background.jpg");
     }
 
     private static TextureRegion[][] getSplit(String name, int width, int height) {
-        return new TextureRegion(new Texture(name)).split(width, height);
+        Texture texture = getTexture(name);
+        return new TextureRegion(texture).split(width, height);
     }
+
+    private static TextureRegion getRegion(String name) {
+        Texture texture = getTexture(name);
+        return new TextureRegion(texture);
+    }
+
+    private static Texture getTexture(String name) {
+        Texture texture = new Texture(name);
+        //Lineal = suavizado,  Nearest (por defecto) = pixelado
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        return texture;
+    }
+
 }
