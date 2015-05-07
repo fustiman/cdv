@@ -20,7 +20,7 @@ public class Main extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Cogemos la pantalla actual y la renderizamos pasándole el tiempo
-        //que ha pasado desde la última vez que se ha actualizado
+        //que ha pasado desde la última vez que se ha actualizado EDITADO
 		//getScreen().render(Gdx.graphics.getDeltaTime());
 		super.render();
 	}
