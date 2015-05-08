@@ -67,11 +67,11 @@ public class GameStage extends Stage {
                 break;
             case Keys.LEFT:
                 cameraLocked = false;
-                panCamera(getCamera().position.x, getCamera().position.x + 400);
+                panCamera(getCamera().position.x, getCamera().position.x - 2000);
                 break;
             case Keys.RIGHT:
                 cameraLocked = false;
-                panCamera(getCamera().position.x, getCamera().position.x - 400);
+                panCamera(getCamera().position.x, getCamera().position.x + 2000);
                 break;
         }
         return true;
@@ -102,7 +102,7 @@ public class GameStage extends Stage {
 
                 zoom += factor * percent;
 
-                zoom = MathUtils.clamp(zoom, 1, 4);
+                zoom = MathUtils.clamp(zoom, 1, 5);
                 ((OrthographicCamera) getCamera()).zoom = zoom;
             }
 
