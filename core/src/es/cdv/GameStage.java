@@ -125,7 +125,7 @@ public class GameStage extends Stage {
                 posX += dist * percent;
 
 
-                getCamera().position.x = posX;
+                getCamera().position.x = ((int) posX);
             }
 
 

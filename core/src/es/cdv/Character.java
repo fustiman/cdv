@@ -67,6 +67,7 @@ public class Character extends Actor {
     public void stopX() {
         acceleration.x = 0;
         speed.x = 0;
+        // actualizar metodo para que frene vagamente
     }
 
     public void jump() {
